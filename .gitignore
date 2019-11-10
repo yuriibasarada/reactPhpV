@@ -1,0 +1,6 @@
+/vendor/
+/.idea/
+/composer.lock/
+.env
+npm-debug.log
+dummy-product.png
