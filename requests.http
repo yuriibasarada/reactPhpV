@@ -1,0 +1,107 @@
+### Get all products
+GET http://127.0.0.1:8000/products
+
+
+### Create a new product
+POST http://127.0.0.1:8000/products
+Content-Type: multipart/form-data; boundary=RestApiBoundary
+
+--RestApiBoundary
+Content-Disposition: form/data; name="name"
+
+MacBook Pro
+--RestApiBoundary
+Content-Disposition: form/data; name="price"
+
+2800
+--RestApiBoundary
+Content-Disposition: form/data; name="image"; filename="dummy-product.png"
+Content-Type: image/png
+
+< dummy-product.png
+--RestApiBoundary
+
+
+### Get product by id
+GET http://127.0.0.1:8000/products/6
+
+
+### Update product by id
+PUT http://127.0.0.1:8000/products/8
+Content-Type: application/json
+
+{
+  "name": "MacBook Pro 1",
+  "price": 6050
+}
+
+### Delete product by id
+DELETE http://127.0.0.1:8000/products/8
+
+
+
+### Get all orders
+GET http://127.0.0.1:8000/orders
+
+
+### Create a new orders
+POST http://127.0.0.1:8000/orders
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+
+### Get orders by id
+GET http://127.0.0.1:8000/orders/4
+
+### Delete orders by id
+DELETE http://127.0.0.1:8000/orders/4
+
+### IMAGE
+
+http://127.0.0.1:8000/uploads/some.png
+
+###
+
+
+
+
+### Create a new user
+POST http://localhost:8000/auth/signup
+Content-Type: application/json
+
+{
+  "email" : "yuriyshkvarc31@gmail.com",
+  "password" : "passwordgf",
+  "name": "testName"
+}
+
+### Sign in a user
+POST http://localhost:8000/auth/signin
+Content-Type: application/json
+
+{
+  "email" : "yuriyshkvarc@gmail.com",
+  "password" : "password"
+}
+
+### Sign in a user
+POST http://localhost:8000/auth/getid
+Content-Type: application/json
+
+{
+  "token" : "feyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZW1haWwiOiJ5dXJpeXNoa3ZhcmNAZ21haWwuY29tIiwiZXhwIjoxNTczMzIyNTg0fQ.18QVmke8JResjTOxgyILT95cSjPmwoUrMOAm1ZUlnVc"
+}
+
+### Sign in a user
+GET http://localhost:8000/auth/getinfo/8
+Content-Type: application/json
+
+{
+  "id" : "8"
+}
+
+
+###
