@@ -17,10 +17,11 @@ final class Version20191109124619 extends AbstractMigration
         $sql = <<<SQL
 create TABLE users_info (
     id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-    user_id INT NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
     name VARCHAR(255) NOT NULL,
     bill BIGINT,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
 )
 SQL;
 

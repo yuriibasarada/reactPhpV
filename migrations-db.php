@@ -2,7 +2,8 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-(\Dotenv\Dotenv::create(__DIR__))->load();
+(\Dotenv\Dotenv::create(__DIR__))
+    ->load();
 
 return [
     'dbname' => getenv('DB_NAME'),
