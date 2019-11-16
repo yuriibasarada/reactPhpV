@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Authentication;
+namespace App\Authentication\Info;
 
+use App\Authentication\Storage;
 use App\Core\JsonResponse;
 use Exception;
 use Psr\Http\Message\RequestInterface;

@@ -79,6 +79,20 @@ final class Storage
             });
     }
 
+    public function getById(int $id) {
+        return $this->connection
+            ->query(
+                'SELECT id, email, password FROM users WHERE id = ?', [$id]
+            )
+            ->then(
+                function (QueryResult $result) {
+                    if (empty($result->resultRows)) {
+                        throw new UserNotFound();
+                    }
+                    return $result->resultRows[0];
+                }
+            );
+    }
     public function getInfoById(int $id): PromiseInterface
     {
         return $this->connection
@@ -93,6 +107,15 @@ final class Storage
 
                 return $result->resultRows[0];
 
+            });
+    }
+
+    public function updateInfo(int $uid, string $name, int $bill): PromiseInterface
+    {
+        return $this->getInfoById($uid)
+            ->then( function (array $info) use ($uid, $name, $bill) {
+                return $this->connection->query(
+                  'UPDATE users_info SET name = ?, bill = ? WHERE user_id = ?', [$name, $bill, $uid]);
             });
     }
 }
