@@ -3,11 +3,17 @@
 
 use App\Authentication\Authenticator;
 use App\Authentication\GetIdController;
-use App\Authentication\GetInfoById;
+use App\Authentication\GetUserById;
+use App\Authentication\Info\GetInfoById;
+use App\Authentication\Info\UpdateInfo;
 use App\Authentication\JwtDecode;
 use App\Authentication\SignInController;
 use App\Authentication\SignUpController;
 use App\Authentication\Storage as Users;
+use App\Categories\Controller\CreateCategory;
+use App\Categories\Controller\GetAllCategories;
+use App\Categories\Controller\GetCategoryById;
+use App\Categories\Controller\UpdateCategory;
 use App\Core\ErrorHandler;
 use App\Core\JsonRequestDecoder;
 use App\Core\Router;
@@ -17,12 +23,16 @@ use App\Orders\Controller\DeleteOrder;
 use App\Orders\Controller\GetAllOrders;
 use App\Orders\Controller\GetOrderById;
 use App\Orders\Storage as Orders;
+use App\Categories\Storage as Categories;
 use App\Products\Controller\CreateProduct;
 use App\Products\Controller\DeleteProduct;
 use App\Products\Controller\GetAllProducts;
 use App\Products\Controller\GetProductById;
 use App\Products\Controller\UpdateProduct;
 use App\Products\Storage as Products;
+use App\Records\Controller\CreateRecord;
+use App\Records\Controller\GetAllRecords;
+use App\Records\Controller\GetRecordById;
 use App\StaticFiles\Controller as StaticFilesController;
 use App\StaticFiles\Webroot;
 use Dotenv\Dotenv;
@@ -33,6 +43,8 @@ use React\EventLoop\Factory;
 use React\Filesystem\Filesystem;
 use React\Http\Server;
 use Sikei\React\Http\Middleware\CorsMiddleware;
+use App\Records\Storage as Records;
+
 
 require 'vendor/autoload.php';
 
@@ -50,7 +62,10 @@ $uploader = new Uploader($filesystem, __DIR__);
 
 $products = new Products($connection);
 $orders = new Orders($connection);
+$categories = new Categories($connection);
 $routes = new RouteCollector(new Std(), new GroupCountBased());
+
+
 
 $routes->get('/products', new GetAllProducts($products));
 $routes->post('/products', new CreateProduct($products, $uploader));
@@ -71,7 +86,20 @@ $jwtDecode = new JwtDecode(getenv('JWT_KEY'));
 $routes->post('/auth/signup', new SignUpController($users));
 $routes->post('/auth/signin', new SignInController($authenticator));
 $routes->post('/auth/getid', new GetIdController($jwtDecode));
+$routes->get('/user', new GetUserById($users));
 $routes->get('/auth/getinfo/{id:\d+}', new GetInfoById($users));
+$routes->put('/info/{id:\d+}', new UpdateInfo($users));
+
+
+$routes->post('/categories', new CreateCategory($categories, $users));
+$routes->put('/categories/{id:\d+}', new UpdateCategory($categories));
+$routes->get('/categories/{id:\d+}', new GetAllCategories($categories));
+$routes->get('/category/{id:\d+}', new GetCategoryById($categories));
+
+$records = new Records($connection);
+$routes->post('/records', new CreateRecord($categories, $records));
+$routes->get('/records/{id:\d+}', new GetAllRecords($records));
+$routes->get('/record/{id:\d+}', new GetRecordById($records));
 
 $settings = [
     'allow_origin'      => ['*'],

@@ -73,9 +73,9 @@ POST http://localhost:8000/auth/signup
 Content-Type: application/json
 
 {
-  "email" : "yuriyshkvarc31@gmail.com",
-  "password" : "passwordgf",
-  "name": "testName"
+  "email" : "a1@gmail.com",
+  "password" : "123456",
+  "name": "Ave`l"
 }
 
 ### Sign in a user
@@ -83,8 +83,8 @@ POST http://localhost:8000/auth/signin
 Content-Type: application/json
 
 {
-  "email" : "yuriyshkvarc@gmail.com",
-  "password" : "password"
+  "email" : "a@gmail.com",
+  "password" : "123456"
 }
 
 ### Sign in a user
@@ -102,6 +102,47 @@ Content-Type: application/json
 {
   "id" : "8"
 }
+
+### Create Categories
+POST http://localhost:8000/categories
+Content-Type: application/json
+
+{
+  "user_id" : 1,
+  "name" : "ав",
+  "limit" : 1
+}
+
+### Get all categies
+GET http://localhost:8000/categories/1
+Content-Type: application/json
+
+### Update Category
+PUT http://localhost:8000/categories/24
+Content-Type: application/json
+
+{
+  "user_id" : 1,
+  "name" : "t",
+  "limit" : 600
+}
+
+
+### Create Record
+POST http://localhost:8000/records
+Content-Type: application/json
+
+{
+  "category_id": 2,
+  "amount": 1,
+  "description": "text",
+  "type_id": 2
+}
+
+
+### Get all records
+GET http://localhost:8000/records/1
+Content-Type: application/json
 
 
 ###
