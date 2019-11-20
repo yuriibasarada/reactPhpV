@@ -103,6 +103,19 @@ Content-Type: application/json
   "id" : "8"
 }
 
+### Update user info
+
+PUT http://localhost:8000/info/1
+Content-Type: application/json
+
+{
+  "id" : 1,
+  "user_id" :  1,
+  "name": "Ave`l",
+  "bill": 4500,
+  "locale" : "en-US"
+}
+
 ### Create Categories
 POST http://localhost:8000/categories
 Content-Type: application/json
@@ -138,6 +151,8 @@ Content-Type: application/json
   "description": "text",
   "type_id": 2
 }
+
+
 
 
 ### Get all records

@@ -97,7 +97,7 @@ final class Storage
     {
         return $this->connection
             ->query(
-                'SELECT id, name, bill FROM users_info WHERE user_id = ?',
+                'SELECT id, name, bill, locale FROM users_info WHERE user_id = ?',
                 [$id]
             )
             ->then(function (QueryResult $result) {
@@ -110,12 +110,12 @@ final class Storage
             });
     }
 
-    public function updateInfo(int $uid, string $name, int $bill): PromiseInterface
+    public function updateInfo(int $uid, string $name, int $bill, string $locale): PromiseInterface
     {
         return $this->getInfoById($uid)
-            ->then( function (array $info) use ($uid, $name, $bill) {
+            ->then( function (array $info) use ($uid, $name, $bill, $locale) {
                 return $this->connection->query(
-                  'UPDATE users_info SET name = ?, bill = ? WHERE user_id = ?', [$name, $bill, $uid]);
+                  'UPDATE users_info SET name = ?, bill = ?, locale = ? WHERE user_id = ?', [$name, $bill, $locale, $uid]);
             });
     }
 }

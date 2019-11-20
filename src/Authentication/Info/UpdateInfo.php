@@ -28,7 +28,7 @@ class UpdateInfo
     {
         $input = new Input($request);
         $input->validate();
-        return $this->storage->updateInfo($uid, $input->name(), $input->bill())
+        return $this->storage->updateInfo($uid, $input->name(), $input->bill(), $input->locale())
             ->then(function (QueryResult $result) {
                 return JsonResponse::ok('Successful');
             })->otherwise(function (UserNotFound $error) {

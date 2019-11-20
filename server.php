@@ -18,18 +18,7 @@ use App\Core\ErrorHandler;
 use App\Core\JsonRequestDecoder;
 use App\Core\Router;
 use App\Core\Uploader;
-use App\Orders\Controller\CreateOrder\Controller;
-use App\Orders\Controller\DeleteOrder;
-use App\Orders\Controller\GetAllOrders;
-use App\Orders\Controller\GetOrderById;
-use App\Orders\Storage as Orders;
 use App\Categories\Storage as Categories;
-use App\Products\Controller\CreateProduct;
-use App\Products\Controller\DeleteProduct;
-use App\Products\Controller\GetAllProducts;
-use App\Products\Controller\GetProductById;
-use App\Products\Controller\UpdateProduct;
-use App\Products\Storage as Products;
 use App\Records\Controller\CreateRecord;
 use App\Records\Controller\GetAllRecords;
 use App\Records\Controller\GetRecordById;
@@ -60,23 +49,10 @@ $connection = $mysql->createLazyConnection($uri);
 $filesystem = Filesystem::create($loop);
 $uploader = new Uploader($filesystem, __DIR__);
 
-$products = new Products($connection);
-$orders = new Orders($connection);
 $categories = new Categories($connection);
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 
 
-
-$routes->get('/products', new GetAllProducts($products));
-$routes->post('/products', new CreateProduct($products, $uploader));
-$routes->get('/products/{id:\d+}', new GetProductById($products));
-$routes->put('/products/{id:\d+}', new UpdateProduct($products));
-$routes->delete('/products/{id:\d+}', new DeleteProduct($products));
-
-$routes->get('/orders', new GetAllOrders($orders));
-$routes->post('/orders', new Controller($orders, $products));
-$routes->get('/orders/{id:\d+}', new GetOrderById($orders));
-$routes->delete('/orders/{id:\d+}', new DeleteOrder($orders));
 
 $routes->get('/uploads/{file:.*\.\w+}', new StaticFilesController(new Webroot($filesystem, __DIR__)));
 

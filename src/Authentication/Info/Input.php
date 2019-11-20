@@ -34,8 +34,13 @@ class Input
                 Validator::positive()
             ))->setName('bill');
 
+        $localeValidator = Validator::key('locale',
+            Validator::allOf(
+                Validator::notBlank(),
+                Validator::stringType()
+            ))->setName('locale');
 
-        $validator = Validator::allOf($nameValidator, $billValidator);
+        $validator = Validator::allOf($nameValidator, $billValidator, $localeValidator);
 
         $validator->assert($this->request->getParsedBody());
     }
@@ -48,6 +53,11 @@ class Input
     public function bill(): int
     {
         return $this->request->getParsedBody()['bill'];
+    }
+
+    public function locale(): string
+    {
+        return  $this->request->getParsedBody()['locale'];
     }
 
     public function userId(): int
