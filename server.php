@@ -46,15 +46,10 @@ $uri = getenv('DB_LOGIN') . ':' . getenv('DB_PASS') . '@' . getenv('DB_HOST') . 
 $connection = $mysql->createLazyConnection($uri);
 
 
-$filesystem = Filesystem::create($loop);
-$uploader = new Uploader($filesystem, __DIR__);
 
 $categories = new Categories($connection);
 $routes = new RouteCollector(new Std(), new GroupCountBased());
 
-
-
-$routes->get('/uploads/{file:.*\.\w+}', new StaticFilesController(new Webroot($filesystem, __DIR__)));
 
 $users = new Users($connection);
 $authenticator = new Authenticator($users, getenv('JWT_KEY'));
